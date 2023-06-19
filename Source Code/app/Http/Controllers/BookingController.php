@@ -35,7 +35,7 @@ class BookingController extends Controller
             'nama' => 'required|string',
             'name' => 'required|string',
             'tanggal_checkin' => 'required|date',
-            'tanggal_checkout' => 'required|date|after:tanggal_checkin',
+            'tanggal_checkout' => 'required|date|after_or_equal:tanggal_checkin',
             'category_id' => 'required|exists:categories,id',
             'kategori_kamar' => 'required|string',
             'user_id' => 'required|exists:users,id',
@@ -95,6 +95,7 @@ class BookingController extends Controller
 
         return redirect()->route('user.orders.index')->with('success', 'Tunggu pesanan di approve Pihak Hotel.');
     }
+
 
     public function cancelBooking($orderId)
     {
@@ -156,16 +157,35 @@ class BookingController extends Controller
         // Mencari pesanan berdasarkan $orderId
         $order = Order::findOrFail($orderId);
 
+        $order->status = 'Approved';
+        $order->save();
+
         // Simpan notifikasi kepada pelanggan
         $notification = new Notification();
         $notification->message = 'Pesanan Anda telah diapprove.';
         $notification->sender = 'system';
-        $notification->receiver = $order->user_id; // Menggunakan ID pelanggan yang terkait
+        $notification->receiver = $order->user_id; // Menggunakan ID pelanggan yang memesan
         $notification->sent_at = now();
         $notification->save();
 
-        $order->status = 'Approved';
+        return redirect()->route('admin.orders.list')->with('success', 'Pesanan telah diapprove.');
+    }
+
+    public function accessible($orderId)
+    {
+        // Mencari pesanan berdasarkan $orderId
+        $order = Order::findOrFail($orderId);
+
+        $order->status = 'Accessible';
         $order->save();
+
+        // Simpan notifikasi kepada pelanggan
+        $notification = new Notification();
+        $notification->message = 'Segera bayar pesanan anda, sudah diberi akses.';
+        $notification->sender = 'system';
+        $notification->receiver = $order->user_id; // Menggunakan ID pelanggan yang memesan
+        $notification->sent_at = now();
+        $notification->save();
 
         return redirect()->route('admin.orders.list')->with('success', 'Pesanan telah diapprove.');
     }
@@ -175,6 +195,9 @@ class BookingController extends Controller
         // Mencari pesanan berdasarkan $orderId
         $order = Order::findOrFail($orderId);
 
+        $order->status = 'Rejected';
+        $order->save();
+
         // Simpan notifikasi kepada pelanggan
         $notification = new Notification();
         $notification->message = 'Pesanan Anda telah ditolak.';
@@ -182,9 +205,6 @@ class BookingController extends Controller
         $notification->receiver = $order->user_id; // Menggunakan ID pelanggan yang terkait
         $notification->sent_at = now();
         $notification->save();
-
-        $order->status = 'Rejected';
-        $order->save();
 
         return redirect()->route('admin.orders.list')->with('success', 'Pesanan telah ditolak.');
     }
@@ -198,9 +218,9 @@ class BookingController extends Controller
 
     public function listOrder()
     {
-        $orders = Order::all(); // Mendapatkan semua pesanan
+        $orders = Order::all();
 
-        return view('admin.orders.index', compact('orders'));
+        return view('admin.orders.index', compact('orders')); //membuat array asosiatif yang kemudian digunakan dalam fungsi view() untuk meneruskan data ke tampilan
     }
 
     public function showNotifications()
@@ -210,8 +230,8 @@ class BookingController extends Controller
         $jumlahTestimony = Testimony::count();
         $today = Carbon::today();
         $todayCheckIns = Order::whereDate('tanggal_checkin', $today)
-                      ->where('status', 'approved')
-                      ->count();
+            ->where('status', 'approved')
+            ->count();
         $availableRoomsCount = $jumlahKamar - $todayCheckIns;
         $customers = User::where('role', 'pelanggan')->get();
         $customerCount = User::where('role', 'pelanggan')->count();
@@ -220,7 +240,7 @@ class BookingController extends Controller
             ->where('receiver', 'admin')
             ->where('status', 'unread')
             ->distinct()
-            ->select('id', 'message')
+            ->select('id', 'message',)
             ->get();
 
         return view('admin.index', compact(
@@ -252,21 +272,21 @@ class BookingController extends Controller
         $checkinReservations = Order::whereDate('tanggal_checkin', $today)
             ->where('status', 'approved')
             ->count();
-    
+
         $availableRooms = $jumlahKamar - $checkinReservations;
-    
+
         $notifications = [];
-    
+
         if (auth()->check()) {
             $notifications = Notification::where('receiver', auth()->user()->id)
                 ->where('status', 'unread')
                 ->select('id', 'message')
                 ->get();
         }
-    
+
         return view('user.index', compact('jumlahKamar', 'notifications', 'availableRooms'));
     }
-    
+
 
     public function markAsReadPelanggan($id)
     {

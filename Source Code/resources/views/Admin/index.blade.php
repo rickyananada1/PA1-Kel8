@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Lago Hotel | Order Request</title>
+    <title>Admin Lago Hotel | Dashboard</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="{{ asset('Admin/daterangepicker/daterangepicker.css') }}">
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('Admin/summernote/summernote-bs4.min.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{asset('img/lambang.png')}}" />
 
 </head>
 
@@ -74,7 +75,7 @@
                 <!-- Brand Logo -->
                 <a href="{{ route('admin.notifications.index') }}" class="brand-link">
                     <img src="{{ asset('img/lambang.png') }}" alt="AdminLTE Logo" class="brand-image" style="opacity: .8">
-                    <p class="brand-text font-weight-light">Halo Admin Lago's</p>
+                    <p class="brand-text font-weight-light">Halo Admin Lago</p>
                 </a>
 
                 <div class="sidebar">
@@ -214,7 +215,7 @@
                                     <div class="card-body">
                                         <table class="table table-striped">
                                             <thead>
-                                                <tr>
+                                                <tr class="text-center">
                                                     <th>Nama</th>
                                                     <th>Email</th>
                                                     <!-- Add more table headers for additional columns if needed -->
@@ -222,7 +223,7 @@
                                             </thead>
                                             <tbody>
                                                 @foreach ($customers as $customer)
-                                                <tr>
+                                                <tr class="text-center">
                                                     <td>{{ $customer->name }}</td>
                                                     <td>{{ $customer->email }}</td>
                                                     <!-- Add more table cells for additional columns if needed -->

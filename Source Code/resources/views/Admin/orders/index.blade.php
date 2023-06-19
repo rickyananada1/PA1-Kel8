@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Lago Hotel | Order Request</title>
+    <title>Admin Lago Hotel | Daftar Pesanan</title>
+    <link rel="icon" type="image/x-icon" href="{{asset('img/lambang.png')}}"   />
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -74,7 +75,7 @@
                 <!-- Brand Logo -->
                 <a href="{{ route('admin.notifications.index') }}" class="brand-link">
                     <img src="{{ asset('img/lambang.png') }}" alt="AdminLTE Logo" class="brand-image" style="opacity: .8">
-                    <p class="brand-text font-weight-light">Halo Admin Lago's</p>
+                    <p class="brand-text font-weight-light">Halo Admin Lago</p>
                 </a>
 
                 <div class="sidebar">
@@ -155,58 +156,80 @@
                                                     <td>{{ $order->tanggal_checkout }}</td>
                                                     <td>{{ $order->kategori_kamar }}</td>
                                                     <td>{{ $order->status }}</td>
-                                                    <td>Rp.{{ $order->room->category->price}},00</td>
-                                                    <td>
-                                                        @if ($order->gambar_pembayaran)
-                                                        <a href="{{ asset('storage/' . $order->gambar_pembayaran) }}" data-toggle="modal" data-target="#imageModal{{ $order->id }}">
-                                                            <img src="{{ asset('storage/' . $order->gambar_pembayaran) }}" alt="Bukti Pembayaran" style="max-width: 100px;">
-                                                        </a>
-                                                        @endif
+                                                    <?php
+                                                    $checkin = new DateTime(date('Y-m-d', strtotime($order->tanggal_checkin)));
+                                                    $checkout = new DateTime(date('Y-m-d', strtotime($order->tanggal_checkout)));
+                                                    $selisihHari = $checkout->diff($checkin)->days + 1;
+                                                    $harga = $order->room->category->price;
+                                                    $totalHarga = $selisihHari * ($order->room->category->price ?? old('category->price'));
+                                                    ?>
+                                                    <td><strong class="text-primary">Rp.{{ number_format($totalHarga, 2, ',', '.') }}</strong></td>
+                                                <td>
+                                                    @if ($order->gambar_pembayaran)
+                                                    <a href="{{ asset('storage/' . $order->gambar_pembayaran) }}" data-toggle="modal" data-target="#imageModal{{ $order->id }}">
+                                                        <img src="{{ asset('storage/' . $order->gambar_pembayaran) }}" alt="Bukti Pembayaran" style="max-width: 100px;">
+                                                    </a>
+                                                    @endif
 
-                                                        <!-- Modal -->
-                                                        <div class="modal fade" id="imageModal{{ $order->id }}" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
-                                                            <div class="modal-dialog" role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-body">
-                                                                        <img src="{{ asset('storage/' . $order->gambar_pembayaran) }}" alt="Bukti Pembayaran" style="max-width: 100%;">
-                                                                    </div>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="imageModal{{ $order->id }}" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-body">
+                                                                    <img src="{{ asset('storage/' . $order->gambar_pembayaran) }}" alt="Bukti Pembayaran" style="max-width: 100%;">
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </td>
-                                                    <td>
-                                                        @if ($order->status === 'Pending')
-                                                        <form action="{{ route('admin.orders.approve', $order->id) }}" method="POST" class="d-inline">
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-success">Approve</button>
-                                                        </form>
-                                                        <form action="{{ route('admin.orders.reject', $order->id) }}" method="POST" class="d-inline">
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-danger">Tolak</button>
-                                                        </form>
-                                                        <form action="{{ route('admin.orders.delete', $order->id) }}" method="POST" class="d-inline">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-secondary">Hapus</button>
-                                                        </form>
-                                                        @elseif ($order->status === 'Approved')
-                                                        <form action="{{ route('admin.orders.reject', $order->id) }}" method="POST" class="d-inline">
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-danger">Tolak</button>
-                                                        </form>
-                                                        <form action="{{ route('admin.orders.delete', $order->id) }}" method="POST" class="d-inline">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-secondary">Hapus</button>
-                                                        </form>
-                                                        @elseif ($order->status === 'Rejected')
-                                                        <form action="{{ route('admin.orders.delete', $order->id) }}" method="POST" class="d-inline">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-secondary">Hapus</button>
-                                                        </form>
-                                                        @endif
-                                                    </td>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    @if ($order->status === 'Pending')
+                                                    <form action="{{ route('admin.orders.accessible', $order->id) }}" method="POST" class="d-inline">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-primary">Beri Akses</button>
+                                                    </form>
+                                                    <form action="{{ route('admin.orders.reject', $order->id) }}" method="POST" class="d-inline">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-danger">Reject</button>
+                                                    </form>
+                                                    <form action="{{ route('admin.orders.delete', $order->id) }}" method="POST" class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-secondary">Delete</button>
+                                                    </form>
+                                                    @elseif ($order->status === 'Accessible')
+                                                    <form action="{{ route('admin.orders.approve', $order->id) }}" method="POST" class="d-inline">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-success">Approve</button>
+                                                    </form>
+                                                    <form action="{{ route('admin.orders.reject', $order->id) }}" method="POST" class="d-inline">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-danger">Reject</button>
+                                                    </form>
+                                                    <form action="{{ route('admin.orders.delete', $order->id) }}" method="POST" class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-secondary">Delete</button>
+                                                    </form>
+                                                    @elseif ($order->status === 'Approved')
+                                                    <form action="{{ route('admin.orders.reject', $order->id) }}" method="POST" class="d-inline">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-danger">Reject</button>
+                                                    </form>
+                                                    <form action="{{ route('admin.orders.delete', $order->id) }}" method="POST" class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-secondary">Delete</button>
+                                                    </form>
+                                                    @elseif ($order->status === 'Rejected')
+                                                    <form action="{{ route('admin.orders.delete', $order->id) }}" method="POST" class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-secondary">Delete</button>
+                                                    </form>
+                                                    @endif
+
+                                                </td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>
@@ -228,8 +251,6 @@
     </body>
 
     </html>
-
-
     <!-- jQuery -->
     <script src="{{ asset('Admin/plugins/jquery/jquery.min.js') }}"></script>
     <!-- jQuery UI 1.11.4 -->

@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Lago Hotel | Order Request</title>
+    <title>Admin Lago Hotel | Daftar Kategory Kamar</title>
+    <link rel="icon" type="image/x-icon" href="{{asset('img/lambang.png')}}" />
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -81,7 +82,7 @@
                 <!-- Brand Logo -->
                 <a href="{{ route('admin.notifications.index') }}" class="brand-link">
                     <img src="{{ asset('img/lambang.png') }}" alt="AdminLTE Logo" class="brand-image" style="opacity: .8">
-                    <p class="brand-text font-weight-light">Halo Admin Lago's</p>
+                    <p class="brand-text font-weight-light">Halo Admin Lago</p>
                 </a>
 
                 <div class="sidebar">
@@ -158,7 +159,7 @@
                                     <form action="{{ route('category.destroy', $category->id) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger btn-lg" onclick="return confirm('Are you sure you want to delete this category?')">Hapus</button>
+                                        <button type="submit" class="btn btn-sm btn-danger btn-lg" onclick="return confirm('Sudah yakin?')">Hapus</button>
                                     </form>
                                 </div>
                             </div>

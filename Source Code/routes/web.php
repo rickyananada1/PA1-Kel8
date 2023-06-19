@@ -43,6 +43,7 @@ Route::group(['middleware' => ['auth', 'pelanggan']], function () {
 
 
 Route::group(['middleware' => 'admin'], function () {
+    Route::post('/admin/orders/{orderId}/accessible', [BookingController::class, 'accessible'])->name('admin.orders.accessible');
     Route::post('/admin/orders/{orderId}/approve', [BookingController::class, 'approve'])->name('admin.orders.approve');
     Route::post('/admin/orders/{orderId}/reject', [BookingController::class, 'reject'])->name('admin.orders.reject');
     Route::delete('/admin/orders/{orderId}/delete', [BookingController::class, 'delete'])->name('admin.orders.delete');
@@ -64,3 +65,5 @@ Route::group(['middleware' => 'admin'], function () {
     Route::put('/categories/{category}', [RoomController::class, 'updateCategory'])->name('category.update');
     Route::delete('/categories/{category}', [RoomController::class, 'destroyCategory'])->name('category.destroy');
 });
+
+

@@ -131,16 +131,23 @@
                                         <td>{{ $order->kategori_kamar }}</td>
                                     </tr>
                                     <tr>
-                                        <th>Harga:</th>
-                                        <td><strong class="text-primary">Rp.{{ $order->room->category->price }},00</strong></td>
-                                    </tr>
-                                    <tr>
                                         <th>Tanggal Check-in:</th>
                                         <td>{{ $order->tanggal_checkin }}</td>
                                     </tr>
                                     <tr>
                                         <th>Tanggal Check-out:</th>
                                         <td>{{ $order->tanggal_checkout }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Harga:</th>
+                                        <?php
+                                        $checkin = new DateTime(date('Y-m-d', strtotime($order->tanggal_checkin)));
+                                        $checkout = new DateTime(date('Y-m-d', strtotime($order->tanggal_checkout)));
+                                        $selisihHari = $checkout->diff($checkin)->days + 1;
+                                        $harga = $order->room->category->price;
+                                        $totalHarga = $selisihHari * ($order->room->category->price ?? old('category->price'));
+                                        ?>
+                                        <td><strong class="text-primary">Rp.{{ number_format($totalHarga, 2, ',', '.') }}</strong></td>
                                     </tr>
                                 </tbody>
                             </table>

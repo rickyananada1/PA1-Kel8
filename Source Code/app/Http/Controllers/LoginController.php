@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
@@ -21,7 +22,17 @@ class LoginController extends Controller
             return redirect()->intended($this->redirectTo());
         }
     
-        return redirect()->back()->withErrors(['email' => 'Email atau password salah'])->withInput();
+        $errors = [];
+        
+        if (!User::where('email', $request->email)->exists()) {
+            $errors['email'] = 'Email salah';
+        }
+    
+        if (User::where('email', $request->email)->exists() && !Auth::attempt($credentials)) {
+            $errors['password'] = 'Password salah';
+        }
+    
+        return redirect()->back()->withErrors($errors)->withInput();
     }
     
     protected function redirectTo()
@@ -34,9 +45,10 @@ class LoginController extends Controller
             return '/';
         }
     }
-    
-    
 
+
+
+    
     public function logout(Request $request)
     {
         Auth::logout();

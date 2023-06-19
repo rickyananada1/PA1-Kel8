@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Lago Hotel | Order Request</title>
+    <title>Admin Lago Hotel | Daftar Testimoi</title>
+    <link rel="icon" type="image/x-icon" href="{{asset('img/lambang.png')}}" />
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -74,7 +75,7 @@
                 <!-- Brand Logo -->
                 <a href="{{ route('admin.notifications.index') }}" class="brand-link">
                     <img src="{{ asset('img/lambang.png') }}" alt="AdminLTE Logo" class="brand-image" style="opacity: .8">
-                    <p class="brand-text font-weight-light">Halo Admin Lago's</p>
+                    <p class="brand-text font-weight-light">Halo Admin Lago</p>
                 </a>
 
                 <div class="sidebar">
@@ -111,8 +112,8 @@
             </aside>
 
             <!-- Content Wrapper. Contains page content -->
-            <div class="content-wrapper">
-                <h1>Daftar Testimoni</h1>
+            <div class="content-wrapper"><br><hr>
+                <h1 class="text-center">Daftar Testimoni</h1><hr>
                 <div class="row">
                     @foreach ($testimonies as $testimony)
                     <div class="col-md-4 mb-4 p-4">

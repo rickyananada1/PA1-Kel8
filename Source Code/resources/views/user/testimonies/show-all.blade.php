@@ -125,7 +125,7 @@
             <p>{{ $testimony->review }}</p>
             @if ($testimony->image)
             <a href="{{ asset('storage/' . $testimony->image) }}" data-toggle="modal" data-target="#imageModal">
-                <img src="{{ asset('storage/' . $testimony->image) }}" alt="Testimony Image" width="100" height="50">
+                <img src="{{ asset('storage/' . $testimony->image) }}" alt="Testimony Image" width="350" height="250">
             </a>
             @endif
             <!-- Modal -->

@@ -138,7 +138,10 @@
                                 <label for="kategori_kamar">Kategori Kamar:</label>
                                 <input type="text" name="kategori_kamar" id="kategori_kamar" value="{{ $room->category->name ?? old('category->name ') }}" class="form-control" readonly>
                             </div>
-
+                            <div class="form-group mb-3">
+                                <label for="harga">Harga Kamar / Hari:</label>
+                                <input type="text" name="harga" id="harga" value="Rp.{{ number_format($room->category->price ?? old('category->price'), 0, ',', '.') }}" class="form-control" readonly>
+                            </div>
                             <div class="form-group mb-3">
                                 <label for="nama">Nama:</label>
                                 <input type="text" name="nama" id="nama" class="form-control">

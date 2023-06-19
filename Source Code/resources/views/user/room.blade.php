@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <title>Lago Hotel</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <link rel="icon" type="image/x-icon" href="img/lambang.png" />
+    <link rel="icon" type="image/x-icon" href="{{asset('img/lambang.png')}}" />
     <meta content="" name="keywords">
     <meta content="" name="description">
 
@@ -107,10 +107,10 @@
 
 
         <!-- Page Header Start -->
-        <div class="container-fluid page-header mb-5 p-0" style="background-image: url(img/carousel-1.jpg);">
+        <div class="container-fluid page-header mb-5 p-0" style="background-image: url({{asset('img/carousel-1.jpg')}});">
             <div class="container-fluid page-header-inner py-5">
                 <div class="container text-center pb-5">
-                    <h1 class="display-3 text-white mb-3 animated slideInDown">List Kamar</h1>
+                    <h1 class="display-3 text-white mb-3 animated slideInDown">List Kategori Kamar</h1>
                 </div>
             </div>
         </div>

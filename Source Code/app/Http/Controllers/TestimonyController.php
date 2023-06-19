@@ -33,15 +33,15 @@ class TestimonyController extends Controller
         return redirect()->route('testimonies.showAll', $testimony->id)->with('success', 'Testimony created successfully!');
     }
 
-    public function destroy(Testimony $testimony)
-    {
-        $user = Auth::user();
-        if ($testimony->user_id !== $user->id) {
-            abort(403); // Jika bukan testimoni pengguna yang saat ini sedang login, berikan akses ditolak
-        }
-        $testimony->delete();
-        return redirect()->route('testimonies.index')->with('success', 'Testimony deleted successfully!');
-    }
+    // public function destroy(Testimony $testimony)
+    // {
+    //     $user = Auth::user();
+    //     if ($testimony->user_id !== $user->id) {
+    //         abort(403); // Jika bukan testimoni pengguna yang saat ini sedang login, berikan akses ditolak
+    //     }
+    //     $testimony->delete();
+    //     return redirect()->route('testimonies.index')->with('success', 'Testimony deleted successfully!');
+    // }
 
     public function showAll()
     {

@@ -100,8 +100,6 @@
                 <input type="password" name="password" id="password" placeholder="Password" required>
             </div>
 
-
-
             <div class="form-group form-button">
                 <input type="submit" name="signin" id="signin" class="form-submit" value="Login" />
             </div>

@@ -110,7 +110,7 @@
             </div>
         </div>
         <!-- Header End -->
-        <h1>My Bookings History</h1>
+        <h1 class="text-center">Riwayat Pesanan Saya</h1>
 
         @if (session('success'))
         <div class="alert alert-success">
@@ -119,7 +119,7 @@
         @endif
 
         <div class="container">
-            <h1>Daftar Pesanan</h1>
+            <h1>Daftar Pesanan :</h1><br>
             @if ($userOrders && count($userOrders) > 0)
             <table class="table">
                 <thead>
@@ -142,7 +142,7 @@
                         <td>{{ $order->tanggal_checkin }}</td>
                         <td>{{ $order->tanggal_checkout }}</td>
                         <td>{{ $order->kategori_kamar }}</td>
-                        <td>{{ $order->status }}</td>
+                        <td>{{ $order->status === 'Accessible' ? 'Dapat Dibayar' : $order->status }}</td>
                         <td>
                             @if ($order->gambar_pembayaran)
                             <a href="{{ asset('storage/' . $order->gambar_pembayaran) }}" data-toggle="modal" data-target="#imageModal{{ $order->id }}">
@@ -162,13 +162,16 @@
                             </div>
                         </td>
                         <td>
+                        @csrf
+                            @if($order->status === 'Pending')
                             <form action="{{ route('user.booking.cancel', $order->id) }}" method="POST" style="display: inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-warning">Batalkan</button>
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-warning">Batalkan</button>
                             </form>
-
-                            @if ($order->status === 'Approved')
+                            @elseif ($order->status === 'Approved')
+                            <button type="button" class="btn btn-secondary" disabled>Pesanan Berhasil</button>
+                            @elseif ($order->status === 'Accessible')
                             <form action="{{ route('user.orders.payment', ['orderId' => $order->id]) }}" method="GET" style="display: inline;">
                                 <button type="submit" class="btn btn-primary">Bayar</button>
                             </form>
@@ -179,7 +182,7 @@
                 </tbody>
             </table>
             @else
-            <p>Tidak ada pesanan.</p>
+            <p class="text-center">Tidak ada pesanan.</p>
             @endif
         </div>
 

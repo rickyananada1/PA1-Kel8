@@ -16,7 +16,7 @@ class Order extends Model
         'category_id',
         'status',
         'user_id',
-        'gambar_pembayaran'
+        'gambar_pembayaran',
     ];
 
     public function room()

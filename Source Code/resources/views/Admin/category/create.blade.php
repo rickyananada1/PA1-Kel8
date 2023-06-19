@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Lago Hotel | Order Request</title>
+    <title>Admin Lago Hotel | Tambah Data Kategori</title>
+    <link rel="icon" type="image/x-icon" href="{{asset('img/lambang.png')}}" />
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -74,7 +75,7 @@
                 <!-- Brand Logo -->
                 <a href="{{ route('admin.notifications.index') }}" class="brand-link">
                     <img src="{{ asset('img/lambang.png') }}" alt="AdminLTE Logo" class="brand-image" style="opacity: .8">
-                    <p class="brand-text font-weight-light">Halo Admin Lago's</p>
+                    <p class="brand-text font-weight-light">Halo Admin Lago</p>
                 </a>
 
                 <div class="sidebar">
@@ -158,37 +159,23 @@
                 </section>
             </div>
         </div>
-        <!-- jQuery -->
         <script src="{{ asset('Admin/plugins/jquery/jquery.min.js') }}"></script>
-        <!-- jQuery UI 1.11.4 -->
         <script src="{{ asset('Admin/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
-        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
         <script>
             $.widget.bridge('uibutton', $.ui.button)
         </script>
-        <!-- Bootstrap 4 -->
         <script src="{{ asset('Admin/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-        <!-- ChartJS -->
         <script src="{{ asset('Admin/plugins/chart.js/Chart.min.js') }}"></script>
-        <!-- Sparkline -->
         <script src="{{ asset('Admin/plugins/sparklines/sparkline.js') }}"></script>
-        <!-- JQVMap -->
         <script src="{{ asset('Admin/plugins/jqvmap/jquery.vmap.min.js') }}"></script>
         <script src="{{ asset('Admin/plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script>
-        <!-- jQuery Knob Chart -->
         <script src="{{ asset('Admin/plugins/jquery-knob/jquery.knob.min.js') }}"></script>
-        <!-- daterangepicker -->
         <script src="{{ asset('Admin/plugins/moment/moment.min.js') }}"></script>
         <script src="{{ asset('Admin/plugins/daterangepicker/daterangepicker.js') }}"></script>
-        <!-- Tempusdominus Bootstrap 4 -->
         <script src="{{ asset('Admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
-        <!-- Summernote -->
         <script src="{{ asset('Admin/plugins/summernote/summernote-bs4.min.js') }}"></script>
-        <!-- overlayScrollbars -->
         <script src="{{ asset('Admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
-        <!-- AdminLTE App -->
         <script src="{{ asset('Admin/dist/js/adminlte.js') }}"></script>
-        <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
         <script src="{{ asset('Admin/dist/js/pages/dashboard.js') }}"></script>
     </body>
 
